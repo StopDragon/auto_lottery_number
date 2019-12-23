@@ -1,5 +1,13 @@
-import requests
-import random
+import requests, random, sys, time
+
+def printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end = printEnd)
+    # Print New Line on Complete
+    if iteration == total: 
+        print()
 
 def get_lotto_numbers(episode):
     params = {
@@ -7,9 +15,8 @@ def get_lotto_numbers(episode):
         'drwNo': episode
     }
 
-    request = requests.get('https://dhlottery.co.kr', params=params)
+    request = requests.get('https://nlotto.co.kr/common.do', params=params)
     response = request.json()
-    return response
 
     num_arr = []
     for i in range(1,7):
@@ -19,8 +26,9 @@ def get_lotto_numbers(episode):
 old_lotto_numbers = []
 new_lotto_numbers = []
 
-for i in range(1, 883):
+for i in range(1, 11):
     old_lotto_numbers.append(get_lotto_numbers(i))
+    printProgressBar(i, 10, 'Analyzing:', 'Complete', 1, 50, '█')
 
 while len(new_lotto_numbers) < 5:
     list_of_numbers = list(range(1,46))
@@ -34,3 +42,4 @@ f = open("new_numbers.txt", 'w')
 for nums in new_lotto_numbers:
     f.write(str(sorted(nums)) + "\n")
 f.close()
+print("\nAnalysis Complete")

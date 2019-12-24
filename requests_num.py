@@ -18,17 +18,17 @@ def get_lotto_numbers(episode):
     request = requests.get('https://nlotto.co.kr/common.do', params=params)
     response = request.json()
 
-    num_arr = []
+    old_temp = []
     for i in range(1,7):
-        num_arr.append(response["drwtNo" + str(i)])
-    return num_arr
+        old_temp.append(response["drwtNo" + str(i)])
+    return old_temp
 
 old_lotto_numbers = []
 new_lotto_numbers = []
 
-for i in range(1, 11):
+for i in range(1, 891):
     old_lotto_numbers.append(get_lotto_numbers(i))
-    printProgressBar(i, 10, 'Analyzing:', 'Complete', 1, 50, '█')
+    printProgressBar(i, 890, 'Analyzing:', 'Complete', 1, 50, '█')
 
 while len(new_lotto_numbers) < 5:
     list_of_numbers = list(range(1,46))

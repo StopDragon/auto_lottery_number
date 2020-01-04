@@ -5,9 +5,8 @@ def printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, l
     filledLength = int(length * iteration // total)
     bar = fill * filledLength + '-' * (length - filledLength)
     print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end = printEnd)
-    # Print New Line on Complete
     if iteration == total: 
-        print()
+        print("\nAnalysis Complete")
 
 def get_lotto_numbers(episode):
     params = {
@@ -15,8 +14,8 @@ def get_lotto_numbers(episode):
         'drwNo': episode
     }
 
-    request = requests.get('https://nlotto.co.kr/common.do', params=params)
-    response = request.json()
+    lottoAPI = requests.get('https://nlotto.co.kr/common.do', params=params)
+    response = lottoAPI.json()
 
     old_temp = []
     for i in range(1,7):
@@ -42,4 +41,3 @@ f = open("new_numbers.txt", 'w')
 for nums in new_lotto_numbers:
     f.write(str(sorted(nums)) + "\n")
 f.close()
-print("\nAnalysis Complete")
